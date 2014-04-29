@@ -7,4 +7,5 @@ setup(
     author='Daniel D. Beck',
     author_email='me@danieldbeck.com',
     packages=['spacenamer'],
+    package_data={'spacenamer': ['data/*.json']},
 )
