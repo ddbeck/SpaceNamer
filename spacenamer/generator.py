@@ -1,6 +1,4 @@
-"""I knew I was on the right track when this generated
-Despairing Autobiographical Newest Inattentive Earth Laborer
-"""
+from __future__ import print_function
 
 import random
 
@@ -74,8 +72,8 @@ def spacename(word, word_lists=DEFAULT_WORD_LISTS, budget=float('inf')):
 def main(budget, word):
     n = ' '.join(spacename(word=word, budget=budget))
     t = '{0}: {1}'.format(word, n)
-    print t
-    print len(t), 'characters.'
+    print(t)
+    print('{0} characters.'.format(len(t)))
 
 
 if __name__ == '__main__':
