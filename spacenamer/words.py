@@ -4,7 +4,6 @@ import codecs
 import json
 import os
 
-
 DATA_FILES_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
     'data'
@@ -15,6 +14,8 @@ ADJECTIVES_FILE = os.path.join(DATA_FILES_PATH, 'adjs.json')
 
 SPACE_ADJECTIVES_FILE = os.path.join(DATA_FILES_PATH, 'space_adjs.json')
 SPACE_NOUNS_FILE = os.path.join(DATA_FILES_PATH, 'space_nouns.json')
+
+WORDS_FILE = os.path.join(DATA_FILES_PATH, 'words.json')
 
 
 def capitalize(words):
@@ -95,13 +96,25 @@ def minor_planets():
     return list(body for body in planetary_body_names()
                 if body not in major_planets())
 
+
+def words():
+    """Just a bunch of words."""
+    with open(WORDS_FILE) as fp:
+        words = json.load(fp)['words']
+
+    return list(word for word in words)
+
+
 ADJECTIVES = adjectives()
 NOUNERS = nouners()
 MAJOR_BODIES = major_planets()
 MINOR_BODIES = minor_planets()
 PLANETARY_BODIES = list(sorted(MAJOR_BODIES + MINOR_BODIES))
-
 # and probably the dumbest thing in this module
 # it's 14 times because that's about what it takes such that the major bodies
 # show up ~50% of the time.
 WEIGHTED_PLANETARY_BODIES = list(sorted(MAJOR_BODIES * 14 + MINOR_BODIES))
+WORDS = words()
+
+__all__ = ['ADJECTIVES', 'NOUNERS', 'MAJOR_BODIES', 'MINOR_BODIES',
+           'PLANETARY_BODIES', 'WEIGHTED_PLANETARY_BODIES', 'WORDS']
