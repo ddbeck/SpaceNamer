@@ -10,11 +10,14 @@ from spacenamer.generator import spacename
 from words import WORDS
 
 
-def generate_status():
-    random_word = random.choice(WORDS).upper()
-    budget = 140 - len(random_word) - len(': ') - ((len(random_word) - 1))
-    sn = ' '.join(spacename(random_word, budget=budget))
-    return '{0}: {1}'.format(random_word, sn)
+def generate_status(word=None):
+    if word is None:
+        word = random.choice(WORDS)
+    word = word.upper()
+
+    budget = 140 - len(word) - len(': ') - ((len(word) - 1))
+    sn = ' '.join(spacename(word, budget=budget))
+    return '{0}: {1}'.format(word, sn)
 
 
 def authenticate(api_key, api_secret, access_key, access_secret):
@@ -30,13 +33,18 @@ def post(twitter, status):
 
 @click.command()
 @click.option('--keysfile', '-k', type=click.File('r'))
-def publish(keysfile):
-    keys = json.load(keysfile)['twitter']
-    twitter = authenticate(keys['api_key'], keys['api_secret'],
-                           keys['access_key'], keys['access_secret'])
+@click.option('--dryrun', is_flag=True)
+@click.argument('word', default=None)
+def publish(keysfile, word=None, dryrun=False):
+    status = generate_status(word)
 
-    status = generate_status()
-    post(twitter, status)
+    if dryrun:
+        print(status)
+    else:
+        keys = json.load(keysfile)['twitter']
+        twitter = authenticate(keys['api_key'], keys['api_secret'],
+                               keys['access_key'], keys['access_secret'])
+        post(twitter, status)
 
 
 if __name__ == '__main__':
