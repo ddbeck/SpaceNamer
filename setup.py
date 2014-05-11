@@ -8,5 +8,5 @@ setup(
     author_email='me@danieldbeck.com',
     packages=['spacenamer'],
     package_data={'spacenamer': ['data/*.json']},
-    requires=['tweepy'],
+    install_requires=['click', 'tweepy'],
 )
