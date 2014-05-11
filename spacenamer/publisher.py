@@ -34,7 +34,7 @@ def post(twitter, status):
 @click.command()
 @click.option('--keysfile', '-k', type=click.File('r'))
 @click.option('--dryrun', is_flag=True)
-@click.argument('word', default=None)
+@click.argument('word', default=None, required=False)
 def publish(keysfile, word=None, dryrun=False):
     status = generate_status(word)
 
