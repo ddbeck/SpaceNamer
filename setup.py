@@ -9,4 +9,7 @@ setup(
     packages=['spacenamer'],
     package_data={'spacenamer': ['data/*.json']},
     install_requires=['click', 'tweepy'],
+    entry_points={
+        'console_scripts': ['publish_spacename = spacenamer.publisher:publish']
+    }
 )
