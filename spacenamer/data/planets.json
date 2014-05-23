@@ -1,5 +1,5 @@
 {
-    "description": "Planets (planets and dwarf planets, as recognized by the IAU) that Orbit the Sun and their natural satellites.",
+    "description": "Planets (including dwarf planets as recognized by the IAU) that orbit the Sun, with their natural satellites.",
     "planets": [
         {
             "name": "Mercury",
