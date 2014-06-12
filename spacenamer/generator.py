@@ -31,9 +31,20 @@ def spacename(word, word_lists=DEFAULT_WORD_LISTS, budget=float('inf')):
     letters = list(c for c in word.upper())
     result = [None for c in letters]
 
-    # pick a noun for the last letter
-    result[-1] = utils.random_by_startswith(word_lists['nouners'], letters[-1])
-    budget -= len(result[-1])
+    # don't convert numbers into words
+    for index, c in enumerate(letters):
+        if c in '0123456789':
+            result[index] = c
+
+    # pick a noun for the last unused letter
+    last_unused_word_index = len(result) - 1
+    for index, c in enumerate(result):
+        if c is None:
+            last_unused_word_index = index
+
+    result[last_unused_word_index] = utils.random_by_startswith(
+        word_lists['nouners'], letters[last_unused_word_index])
+    budget -= len(result[last_unused_word_index])
 
     # if it's only one word, it's time to skip
     if all(result):
@@ -63,6 +74,8 @@ def spacename(word, word_lists=DEFAULT_WORD_LISTS, budget=float('inf')):
                 raise UnsatisfiableBudgetError(msg.format(budget,
                                                           letters[index]))
             budget -= len(result[index])
+
+    result = combine_numbers(result)
 
     return result
 
