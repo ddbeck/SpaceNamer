@@ -1,6 +1,8 @@
 from __future__ import print_function
 
+import itertools
 import random
+import re
 
 import click
 
@@ -63,6 +65,52 @@ def spacename(word, word_lists=DEFAULT_WORD_LISTS, budget=float('inf')):
             budget -= len(result[index])
 
     return result
+
+
+RE_NUMBER = re.compile('\d+')
+
+
+def is_numeric(s):
+    if RE_NUMBER.match(s):
+        return True
+    else:
+        return False
+
+
+def grouper(iterable, n, fillvalue=None):
+    args = [iter(iterable)] * n
+    return itertools.izip_longest(*args, fillvalue=fillvalue)
+
+
+def combine(a, b):
+    if is_numeric(a) and is_numeric(b):
+        yield "{}{}".format(a, b)
+    else:
+        yield a
+        yield b
+
+
+def _combine(seq):
+    while seq:
+        if len(seq) <= 1:
+            yield seq.pop(0)
+        else:
+            current = seq.pop(0)
+            next_ = seq.pop(0)
+
+            if is_numeric(current) and is_numeric(next_):
+                current = "{}{}".format(current, next_)
+                seq.insert(0, current)
+            elif not is_numeric(current) and is_numeric(next_):
+                yield current
+                seq.insert(0, next_)
+            else:
+                yield current
+                yield next_
+
+
+def combine_numbers(seq):
+    return list(_combine(seq))
 
 
 @click.command()

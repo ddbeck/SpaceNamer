@@ -65,3 +65,23 @@ class TestSpacename(object):
         }
         with raises(generator.UnsatisfiableBudgetError):
             generator.spacename(word, word_lists, budget=16)
+
+
+class TestCombineNumbers(object):
+    def test_basic(self):
+        result = generator.combine_numbers(
+            ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+
+        assert result == ['0123456789']
+
+    def test_alpha_first(self):
+        result = generator.combine_numbers(['Alpha', '1', '2', '3'])
+        assert result == ['Alpha', '123']
+
+    def test_alpha_middle(self):
+        result = generator.combine_numbers(['1', '2', '3', 'Alpha', '4', '5'])
+        assert result == ['123', 'Alpha', '45']
+
+    def test_alpha_last(self):
+        result = generator.combine_numbers(['1', '2', '3', 'Alpha', 'Beta'])
+        assert result == ['123', 'Alpha', 'Beta']
