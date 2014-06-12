@@ -1,3 +1,4 @@
+# [SublimeLinter flake8-@python:2]
 
 import contextlib
 import random
@@ -53,11 +54,12 @@ class Followers(object):
             fp.write("{}\n".format(username))
 
     @contextlib.contextmanager
-    def consume_unnamed(self):
+    def consume_unnamed(self, dryrun=False):
         try:
             picked = random.choice(list(self.unnamed()))
             yield picked
         except Exception:
             raise
         else:
-            self.add_name_recipient(picked)
+            if not dryrun:
+                self.add_name_recipient(picked)

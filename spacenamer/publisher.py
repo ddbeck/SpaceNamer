@@ -1,9 +1,7 @@
 from __future__ import print_function
 
-import json
 import random
 
-import click
 import tweepy
 
 from spacenamer.generator import spacename
@@ -26,26 +24,9 @@ def authenticate(api_key, api_secret, access_key, access_secret):
     return tweepy.API(auth)
 
 
-def post(twitter, status):
+def post(twitter, status, dryrun=False):
     """Post status to Twitter."""
-    twitter.update_status(status)
-
-
-@click.command()
-@click.option('--keysfile', '-k', type=click.File('r'))
-@click.option('--dryrun', is_flag=True)
-@click.argument('word', default=None, required=False)
-def publish(keysfile, word=None, dryrun=False):
-    status = generate_status(word)
-
-    if dryrun:
-        print(status)
+    if dryrun is False:
+        twitter.update_status(status)
     else:
-        keys = json.load(keysfile)['twitter']
-        twitter = authenticate(keys['api_key'], keys['api_secret'],
-                               keys['access_key'], keys['access_secret'])
-        post(twitter, status)
-
-
-if __name__ == '__main__':
-    publish()
+        print('{} ({})'.format(status, len(status)))
