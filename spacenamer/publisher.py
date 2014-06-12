@@ -9,13 +9,27 @@ from words import WORDS
 
 
 def generate_status(word=None):
+    if word[0] == '@':
+        word = word[1:]
+        at_reply = True
+    else:
+        at_reply = False
+
     if word is None:
         word = random.choice(WORDS)
     word = word.upper()
 
     budget = 140 - len(word) - len(': ') - ((len(word) - 1))
+
+    if at_reply:
+        budget -= 2  # ".@SOMEFOLLOWER"
+
     sn = ' '.join(spacename(word, budget=budget))
-    return '{0}: {1}'.format(word, sn)
+
+    if at_reply:
+        return '.@{0}: {1}'.format(word, sn)
+    else:
+        return '{0}: {1}'.format(word, sn)
 
 
 def authenticate(api_key, api_secret, access_key, access_secret):
