@@ -1,4 +1,5 @@
 import json
+import random
 
 import click
 
@@ -17,7 +18,9 @@ def publish(keysfile, followersfile, word=None, dryrun=False):
                            keys['access_key'], keys['access_secret'])
     followers = Followers(twitter, followersfile)
 
-    if word is None and followers.unnamed():
+    use_followers = random.choice([followers.unnamed(), False])
+
+    if word is None and use_followers:
         with followers.consume_unnamed(dryrun=dryrun) as follower:
             if not dryrun:
                 twitter.create_friendship(follower)
