@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import functools
 import itertools
 import random
 import re
@@ -20,6 +21,24 @@ class UnsatisfiableBudgetError(Exception):
     pass
 
 
+def retry_on_exception(exc, retries=3):
+    def decorator(fn):
+        @functools.wraps(fn)
+        def wrapper(*args, **kwargs):
+            attempt = 0
+            while True:
+                attempt += 1
+                try:
+                    return fn(*args, **kwargs)
+                except exc:
+                    if attempt >= retries:
+                        print("Attempts before failure: {}".format(attempt))
+                        raise
+        return wrapper
+    return decorator
+
+
+@retry_on_exception(UnsatisfiableBudgetError)
 def spacename(word, word_lists=DEFAULT_WORD_LISTS, budget=float('inf')):
     """Generate an instrument name based on the letters of ``word``.
 
