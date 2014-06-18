@@ -19,6 +19,8 @@ def publish(keysfile, followersfile, word=None, dryrun=False):
 
     if word is None and followers.unnamed():
         with followers.consume_unnamed(dryrun=dryrun) as follower:
+            if not dryrun:
+                twitter.create_friendship(follower)
             post(twitter, generate_status('@{}'.format(follower)),
                  dryrun=dryrun)
     else:
