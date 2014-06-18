@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='spacenamer',
-    version='0.1',
+    version='0.2',
     author='Daniel D. Beck',
     author_email='me@danieldbeck.com',
     packages=['spacenamer'],
