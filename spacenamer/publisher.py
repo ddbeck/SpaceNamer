@@ -9,14 +9,15 @@ from words import WORDS
 
 
 def generate_status(word=None):
-    if word[0] == '@':
-        word = word[1:]
-        at_reply = True
-    else:
-        at_reply = False
+    at_reply = False
 
     if word is None:
         word = random.choice(WORDS)
+
+    if word[0] == '@':
+        word = word[1:]
+        at_reply = True
+
     word = word.upper()
 
     budget = 140 - len(word) - len(': ') - ((len(word) - 1))
