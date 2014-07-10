@@ -47,6 +47,9 @@ def spacename(word, word_lists=DEFAULT_WORD_LISTS, budget=float('inf')):
     if not word:
         raise ValueError("can't make a spacename without letters")
 
+    # underscores are just fancy spaces: ignore them
+    word = word.replace('_', '')
+
     letters = list(c for c in word.upper())
     result = [None for c in letters]
 

@@ -66,6 +66,11 @@ class TestSpacename(object):
         with raises(generator.UnsatisfiableBudgetError):
             generator.spacename(word, word_lists, budget=16)
 
+    def test_word_has_underscore(self):
+        word = 'a_b'
+        result = generator.spacename(word)
+        assert '_' not in result
+
 
 class TestCombineNumbers(object):
     def test_basic(self):
