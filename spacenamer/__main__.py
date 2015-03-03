@@ -21,6 +21,14 @@ def publish(keysfile, followersfile, word=None, dryrun=False):
 
     use_followers = random.choice([followers.unnamed(), False])
 
+    if twitter.me().statuses_count == 3999:
+        post(twitter, "DONE: Disabled Operations Now Everyone")
+        exit(0)
+
+    if twitter.me().statuses_count == 4000:
+        click.echo("Tweet limit reached.")
+        exit(1)
+
     if word is None and use_followers:
         with followers.consume_unnamed(dryrun=dryrun) as follower:
             if not dryrun:
