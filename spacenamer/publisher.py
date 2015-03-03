@@ -42,6 +42,6 @@ def authenticate(api_key, api_secret, access_key, access_secret):
 def post(twitter, status, dryrun=False):
     """Post status to Twitter."""
     if dryrun is False:
-        twitter.update_status(status)
+        twitter.update_status(status=status)
     else:
         print('{} ({})'.format(status, len(status)))
